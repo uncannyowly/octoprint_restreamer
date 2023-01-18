@@ -1,0 +1,47 @@
+<h4>Restreamer Configuration</h4>
+<form class="form-horizontal">
+    <div class="control-group">
+        <label class="control-label">{{ _('Docker Host') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.restreamer.host" placeholder="Enter the IP/DNS for the Restreamer container here">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{{ _('Port') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.restreamer.port" placeholder="Enter the port Restreamer is serving on here">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{{ _('User') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.restreamer.user" placeholder="Enter the user for Restreamer here">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{{ _('Password') }}</label>
+        <div class="controls">
+            <input type="password" class="input-block-level" data-bind="value: settings.plugins.restreamer.secret" placeholder="Enter the password for Restreamer here">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{{ _('Service') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.restreamer.service" placeholder="Enter media service for stream ID: youtube">
+        </div>
+    </div>    
+    <hr>
+    <h4>Pod Settings</h4>
+    <div class="control-group" data-bind="visible: settings.plugins.restreamer.host().length > 0">
+        <label class="control-label">{{ _('Stream While Printing') }}</label>
+        <div class="controls">
+            <input class="input-checkbox" type="checkbox" data-bind="checked: settings.plugins.restreamer.automatic_start"></input>
+        </div>
+    </div>
+    <div class="control-group" data-bind="visible: settings.plugins.restreamer.host().length > 0">
+        <label class="control-label">{{ _('Stop Pod After Print') }}</label>
+        <div class="controls">
+            <input class="input-checkbox" type="checkbox" data-bind="checked: settings.plugins.restreamer.automatic_stop"></input>
+        </div>
+    </div>
+</form>

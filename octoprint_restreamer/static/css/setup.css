@@ -1,0 +1,17 @@
+#restreamer_wrapper .image_container {
+    width: auto;
+    height: auto;
+    text-align: center;
+    line-height: auto;
+}
+
+#restreamer_wrapper .image_container img {
+    vertical-align: middle;
+}
+
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }​
