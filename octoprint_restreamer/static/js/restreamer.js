@@ -11,7 +11,6 @@ $(function () {
 		self.secret = ko.observable();
 		
 		self.referenceID = ko.observable();
-		self.pod = ko.observable();	
 		self.streaming = ko.observable();
 		self.status = ko.observable();
 		
@@ -54,7 +53,7 @@ $(function () {
 			self.secret(self.settingsViewModel.settings.plugins.restreamer.secret());
 			//self.referenceID(self.settingsViewModel.settings.plugins.restreamer.referenceID());
 
-			console.log("oof: " + self.referenceID());
+			//console.log("oof: " + self.referenceID());
 
 			if(self.streaming()){
 				streamURL = 'http://' + self.settingsViewModel.settings.plugins.restreamer.host() + ':' + self.settingsViewModel.settings.plugins.restreamer.port() + '/'+self.referenceID()+'.html'
@@ -77,7 +76,7 @@ $(function () {
 		}
 		
 		self.onTabChange = function(next, current) {
-			console.log("rID: " + self.referenceID()); 
+			//console.log("rID: " + self.referenceID()); 
 			if(next == '#tab_plugin_restreamer'){
 				if(self.settingsViewModel.settings.webcam.streamRatio() == '4:3'){
 					$('#restreamer_wrapper').css('padding-bottom','75%');
@@ -99,91 +98,80 @@ $(function () {
 		}
 
 
-	self.onDataUpdaterPluginMessage = function(plugin, data) {
-		if (plugin != "restreamer") {
-			return;
-		}
-		
-		if(data.error) {
-			new PNotify({
-						title: 'Restreamer Error',
-						text: data.error,
-						type: 'error',
-						hide: false,
-						buttons: {
-							closer: true,
-							sticker: false
-						}
-						});
-		}
-		
-		if(data.status) {
-			
-			if(data.streaming == true) {
-				self.streaming(true);
-				sleep(5); 
-				self.view_url('http://' + self.settingsViewModel.settings.plugins.restreamer.host() + ':' + self.settingsViewModel.settings.plugins.restreamer.port() + '/'+self.referenceID()+'.html');
-			} else {
-				self.streaming(false);
-				self.view_url('./plugin/restreamer/static/htm/setup.htm');
-				self.processing(false);
+		self.onDataUpdaterPluginMessage = function(plugin, data) {
+			if (plugin != "restreamer") {
+				return;
 			}
 			
+			if(data.error) {
+				new PNotify({
+							title: 'Restreamer Error',
+							text: data.error,
+							type: 'error',
+							hide: false,
+							buttons: {
+								closer: true,
+								sticker: false
+							}
+							});
+			}
+			
+			if(data.status) {
+				
+				if(data.streaming == true) {
+					self.streaming(true);
+					//self.view_url('http://' + self.settingsViewModel.settings.plugins.restreamer.host() + ':' + self.settingsViewModel.settings.plugins.restreamer.port() + '/'+self.referenceID()+'.html');
+				} else {
+					self.streaming(false);
+					//self.view_url('');
+					//self.view_url('./plugin/restreamer/static/htm/setup.htm');
+				}
+				
+			}
+
+			if(data.referenceID) {
+				self.referenceID(data.referenceID); 
+			}
+			
+			self.processing(false);
+		};
+		
+		self.checkStream = function(){
+			$.ajax({
+				url: API_BASEURL + "plugin/restreamer",
+				type: "POST",
+				dataType: "json",
+				data: JSON.stringify({
+					command: "startStream"
+				}),
+				contentType: "application/json; charset=UTF-7"
+			})			
 		}
 
-		if(data.referenceID) {
-			self.referenceID(data.referenceID); 
-		}
-		
-		self.processing(false);
-	};
-	
-			self.toggleStream = function() {
-				self.processing(true);
-				if (self.streaming()) {
-					$.ajax({
-						url: API_BASEURL + "plugin/restreamer",
-						type: "POST",
-						dataType: "json",
-						data: JSON.stringify({
-							command: "stopStream"
-						}),
-						contentType: "application/json; charset=UTF-8"
-					})
-					sleep(5);
-					//self.view_url('./plugin/restreamer/static/htm/setup.htm');
-					$.ajax({
-						url: API_BASEURL + "plugin/restreamer",
-						type: "POST",
-						dataType: "json",
-						data: JSON.stringify({
-							command: "checkStream"
-						}),
-						contentType: "application/json; charset=UTF-8"
-					})
-				} else {
-					$.ajax({
-						url: API_BASEURL + "plugin/restreamer",
-						type: "POST",
-						dataType: "json",
-						data: JSON.stringify({
-							command: "startStream"
-						}),
-						contentType: "application/json; charset=UTF-8"
-					})
-					sleep(5);
-					//self.view_url('http://' + self.settingsViewModel.settings.plugins.restreamer.host() + ':' + self.settingsViewModel.settings.plugins.restreamer.port() + '/' + self.referenceID() + '.html');
-					$.ajax({
-						url: API_BASEURL + "plugin/restreamer",
-						type: "POST",
-						dataType: "json",
-						data: JSON.stringify({
-							command: "checkStream"
-						}),
-						contentType: "application/json; charset=UTF-8"
-					})
-				}
+		self.toggleStream = function() {
+			self.processing(true);
+			if (self.streaming()) {
+				$.ajax({
+					url: API_BASEURL + "plugin/restreamer",
+					type: "POST",
+					dataType: "json",
+					data: JSON.stringify({
+						command: "stopStream"
+					}),
+					contentType: "application/json; charset=UTF-7"
+				})
+			} else {
+				$.ajax({
+					url: API_BASEURL + "plugin/restreamer",
+					type: "POST",
+					dataType: "json",
+					data: JSON.stringify({
+						command: "startStream"
+					}),
+					contentType: "application/json; charset=UTF-7"
+				})
 			}
+		}
 	}
 	// This is how our plugin registers itself with the application, by adding some configuration information to
 	// the global variable ADDITIONAL_VIEWMODELS
