@@ -185,7 +185,7 @@ class restreamer(octoprint.plugin.StartupPlugin,
 				
 	##-- EventHandlerPlugin
 	def on_event(self, event, payload):
-		if event == "PrintStarted" and self._settings.get(["automatic_start"]):
+		if event == "PrintStarted" and self._settings.get(["auto_start_stream"]):
 			if self.container.status == 'exited':
 				self.startContainer()
 			else:

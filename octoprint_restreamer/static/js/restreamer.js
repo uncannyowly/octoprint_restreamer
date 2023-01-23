@@ -120,11 +120,11 @@ $(function () {
 				
 				if(data.streaming == true) {
 					self.streaming(true);
-					//self.view_url('http://' + self.settingsViewModel.settings.plugins.restreamer.host() + ':' + self.settingsViewModel.settings.plugins.restreamer.port() + '/'+self.referenceID()+'.html');
+					self.view_url('http://' + self.settingsViewModel.settings.plugins.restreamer.host() + ':' + self.settingsViewModel.settings.plugins.restreamer.port() + '/'+self.referenceID()+'.html');
 				} else {
 					self.streaming(false);
 					//self.view_url('');
-					//self.view_url('./plugin/restreamer/static/htm/setup.htm');
+					self.view_url('./plugin/restreamer/static/htm/setup.htm');
 				}
 				
 			}

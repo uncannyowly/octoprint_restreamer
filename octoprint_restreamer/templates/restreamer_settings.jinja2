@@ -35,13 +35,19 @@
     <div class="control-group" data-bind="visible: settings.plugins.restreamer.host().length > 0">
         <label class="control-label">{{ _('Stream While Printing') }}</label>
         <div class="controls">
-            <input class="input-checkbox" type="checkbox" data-bind="checked: settings.plugins.restreamer.automatic_start"></input>
+            <input class="input-checkbox" type="checkbox" data-bind="checked: settings.plugins.restreamer.auto_start_stream"></input>
         </div>
     </div>
     <div class="control-group" data-bind="visible: settings.plugins.restreamer.host().length > 0">
-        <label class="control-label">{{ _('Stop Pod After Print') }}</label>
+        <label class="control-label">{{ _('Stop Stream After Print') }}</label>
         <div class="controls">
-            <input class="input-checkbox" type="checkbox" data-bind="checked: settings.plugins.restreamer.automatic_stop"></input>
+            <input class="input-checkbox" type="checkbox" data-bind="checked: settings.plugins.restreamer.auto_stop_stream"></input>
         </div>
     </div>
+    <div class="control-group" data-bind="visible: settings.plugins.restreamer.host().length > 0">
+        <label class="control-label">{{ _('Stop Container After Print') }}</label>
+        <div class="controls">
+            <input class="input-checkbox" type="checkbox" data-bind="checked: settings.plugins.restreamer.auto_stop_pod"></input>
+        </div>
+    </div>    
 </form>
